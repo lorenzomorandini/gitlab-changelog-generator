@@ -6,6 +6,7 @@ import urllib.parse
 project_access_token = os.getenv('PROJECT_ACCESS_TOKEN')
 ci_project_id = os.getenv('CI_PROJECT_ID')
 ci_server_url = os.getenv('CI_SERVER_URL')
+project_name = os.getenv('CI_PROJECT_NAME')
 telegram_bot_token = os.getenv('TELEGRAM_BOT_TOKEN')
 telegram_chat_id = os.getenv('TELEGRAM_CHAT_ID')
 
@@ -44,7 +45,7 @@ response = requests.get(
 )
 if DEBUG == True:
     print(response.json())
-changelog = ''
+changelog = f'--- {project_name} ---\n\n'
 # find feature issues
 changelog += '## 🔥 Features\n'
 for issue in response.json():
