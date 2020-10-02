@@ -48,20 +48,20 @@ changelog = ''
 # find feature issues
 changelog += '## 🔥 Features\n'
 for issue in response.json():
-    if 'Feature' in issue.labels:
-        changelog += f' * {issue.title}\n'
+    if 'Feature' in issue['labels']:
+        changelog += f' * {issue["title"]}\n'
 
 # find improvement issues
 changelog += '\n\n## 🚀 Features\n'
 for issue in response.json():
-    if 'Improvement' in issue.labels:
-        changelog += f' * {issue.title}\n'
+    if 'Improvement' in issue['labels']:
+        changelog += f' * {issue["title"]}\n'
 
 # find bug issues
 changelog += '\n\n## 🐞 Features\n'
 for issue in response.json():
-    if 'Bug' in issue.labels:
-        changelog += f' * {issue.title}\n'
+    if 'Bug' in issue['labels']:
+        changelog += f' * {issue["title"]}\n'
 if DEBUG == True:
     print(changelog)
 # url encode changelog text
