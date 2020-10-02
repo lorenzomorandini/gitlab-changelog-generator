@@ -1,6 +1,6 @@
 import os
 import requests
-import urllib
+import urllib.parse
 
 
 project_access_token = os.getenv('PROJECT_ACCESS_TOKEN')
@@ -65,7 +65,7 @@ for issue in response.json():
 if DEBUG == True:
     print(changelog)
 # url encode changelog text
-changelog = urllib.parse.urlencode(changelog)
+changelog = urllib.parse.quote_plus(changelog)
 # send message to telegram bot
 requests.get(
     f'https://api.telegram.org/bot{telegram_bot_token}/sendMessage?chat_id={telegram_chat_id}&text={changelog}'
