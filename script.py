@@ -8,6 +8,14 @@ ci_project_id = os.getenv('CI_PROJECT_ID')
 ci_server_url = os.getenv('CI_SERVER_URL')
 telegram_bot_token = os.getenv('TELEGRAM_BOT_TOKEN')
 telegram_chat_id = os.getenv('TELEGRAM_CHAT_ID')
+debug = os.getenv('DEBUG', False)
+
+if debug == True:
+    print(ci_job_token)
+    print(ci_project_id)
+    print(ci_server_url)
+    print(telegram_bot_token)
+    print(telegram_chat_id)
 
 # get project tags
 response = requests.get(
@@ -16,6 +24,8 @@ response = requests.get(
         'PRIVATE-TOKEN': ci_job_token
     }
 )
+if debug == True:
+    print(response.json())
 # get two latest tags and their "created at" date
 tag_0 = response.json()[0]
 tag_1 = response.json()[1]
@@ -29,6 +39,8 @@ response = requests.get(
         'PRIVATE-TOKEN': ci_job_token
     }
 )
+if debug == True:
+    print(response.json())
 changelog = ''
 # find feature issues
 changelog += '## 🔥 Features\n'
@@ -47,7 +59,8 @@ changelog += '\n\n## 🐞 Features\n'
 for issue in response.json():
     if 'Bug' in issue.labels:
         changelog += f' * {issue.title}\n'
-
+if debug == True:
+    print(changelog)
 # url encode changelog text
 changelog = urllib.parse.urlencode(changelog)
 # send message to telegram bot
