@@ -37,7 +37,7 @@ date_1 = tag_1['commit']['created_at']
 
 # get issues between the two tags
 response = requests.get(
-    f'{ci_server_url}/api/v4/projects/{ci_project_id}/issues?scope=all&state=closed&per_page=100&updated_after={date_1}&updated_before={date_0}',
+    f'{ci_server_url}/api/v4/projects/{ci_project_id}/issues?scope=all&state=closed&per_page=100&updated_after={date_1}&updated_before={date_0}&not[labels]=WontFix',
     headers={
         'PRIVATE-TOKEN': project_access_token
     }
@@ -52,13 +52,13 @@ for issue in response.json():
         changelog += f' * {issue["title"]}\n'
 
 # find improvement issues
-changelog += '\n\n## 🚀 Features\n'
+changelog += '\n\n## 🚀 Improvements\n'
 for issue in response.json():
     if 'Improvement' in issue['labels']:
         changelog += f' * {issue["title"]}\n'
 
 # find bug issues
-changelog += '\n\n## 🐞 Features\n'
+changelog += '\n\n## 🐞 Fixes\n'
 for issue in response.json():
     if 'Bug' in issue['labels']:
         changelog += f' * {issue["title"]}\n'
