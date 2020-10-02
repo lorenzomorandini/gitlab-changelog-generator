@@ -3,7 +3,7 @@ import requests
 import urllib
 
 
-ci_job_token = os.getenv('CI_JOB_TOKEN')
+project_access_token = os.getenv('PROJECT_ACCESS_TOKEN')
 ci_project_id = os.getenv('CI_PROJECT_ID')
 ci_server_url = os.getenv('CI_SERVER_URL')
 telegram_bot_token = os.getenv('TELEGRAM_BOT_TOKEN')
@@ -14,7 +14,7 @@ if os.getenv('DEBUG', 'False').lower() in ('true', 'yes'):
     DEBUG = True
 
 if DEBUG == True:
-    print(ci_job_token)
+    print(project_access_token)
     print(ci_project_id)
     print(ci_server_url)
     print(telegram_bot_token)
@@ -24,7 +24,7 @@ if DEBUG == True:
 response = requests.get(
     f'{ci_server_url}/api/v4/projects/{ci_project_id}/repository/tags',
     headers={
-        'PRIVATE-TOKEN': ci_job_token
+        'PRIVATE-TOKEN': project_access_token
     }
 )
 if DEBUG == True:
@@ -39,7 +39,7 @@ date_1 = tag_1['commit']['created_at']
 response = requests.get(
     f'{ci_server_url}/api/v4/projects/{ci_project_id}/issues?scope=all&state=closed&per_page=100&updated_after={date_11}&updated_before={date_0}',
     headers={
-        'PRIVATE-TOKEN': ci_job_token
+        'PRIVATE-TOKEN': project_access_token
     }
 )
 if DEBUG == True:
