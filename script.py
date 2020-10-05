@@ -38,7 +38,7 @@ date_1 = tag_1['commit']['created_at']
 
 # get issues between the two tags
 response = requests.get(
-    f'{ci_server_url}/api/v4/projects/{ci_project_id}/issues?scope=all&state=closed&per_page=100&updated_after={date_1}&updated_before={date_0}&not[labels]=WontFix',
+    f'{ci_server_url}/api/v4/projects/{ci_project_id}/issues?scope=all&state=closed&per_page=100&updated_after={date_1}&updated_before={date_0}&not[labels]=Exclude',
     headers={
         'PRIVATE-TOKEN': project_access_token
     }
