@@ -74,7 +74,7 @@ for issue in response.json():
 if DEBUG == True:
     print(changelog)
 # url encode changelog text
-changelog = urllib.parse.quote_plus(changelog)
+# changelog = urllib.parse.quote_plus(changelog)
 # send message to telegram bot
 params = {
     'parse_mode': 'markdown',
