@@ -45,7 +45,7 @@ response = requests.get(
 )
 if DEBUG == True:
     print(response.json())
-changelog = f'--- {project_name} ---\n\n'
+changelog = f'--- {project_name.upper()} ---\n\n'
 # find feature issues
 changelog += '## 🔥 Features\n'
 for issue in response.json():
