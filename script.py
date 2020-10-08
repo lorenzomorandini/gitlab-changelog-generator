@@ -1,6 +1,5 @@
 import os
 import requests
-import urllib.parse
 
 
 project_access_token = os.getenv('PROJECT_ACCESS_TOKEN')
@@ -53,31 +52,30 @@ response = requests.get(
 )
 if DEBUG == True:
     print(response.json())
-changelog = f'--- {project_name.upper()} ---\n\n'
+changelog = f'*{project_name.upper()}*\n\n'
 # find feature issues
 changelog += '*🔥 Features*\n'
 for issue in response.json():
     if 'Feature' in issue['labels']:
-        changelog += f'* {issue["title"]}\n'
+        changelog += f'      • {issue["title"]}\n'
 
 # find improvement issues
 changelog += '\n\n*🚀 Improvements*\n'
 for issue in response.json():
     if 'Improvement' in issue['labels']:
-        changelog += f'* {issue["title"]}\n'
+        changelog += f'      • {issue["title"]}\n'
 
 # find bug issues
 changelog += '\n\n*🐞 Fixes*\n'
 for issue in response.json():
     if 'Bug' in issue['labels']:
-        changelog += f'* {issue["title"]}\n'
+        changelog += f'      • {issue["title"]}\n'
 if DEBUG == True:
     print(changelog)
-# url encode changelog text
-# changelog = urllib.parse.quote_plus(changelog)
+
 # send message to telegram bot
 params = {
-    'parse_mode': 'markdown',
+    'parse_mode': 'MarkdownV2',
     'chat_id': telegram_chat_id,
     'text': changelog
 }
