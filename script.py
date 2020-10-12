@@ -1,5 +1,14 @@
 import os
 import requests
+from copy import copy
+
+
+def escape_issue_title(title):
+    characters_to_escape = ['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!']
+    _title = copy(title)
+    for character in characters_to_escape:
+        _title = _title.replace(character, f'\{character}')
+    return _title
 
 
 project_access_token = os.getenv('PROJECT_ACCESS_TOKEN')
@@ -57,19 +66,19 @@ changelog = f'*{project_name.upper()}*\n\n'
 changelog += '*🔥 Features*\n'
 for issue in response.json():
     if 'Feature' in issue['labels']:
-        changelog += f'      • {issue["title"]}\n'
+        changelog += f'      • {escape_issue_title(issue["title"])}\n'
 
 # find improvement issues
 changelog += '\n\n*🚀 Improvements*\n'
 for issue in response.json():
     if 'Improvement' in issue['labels']:
-        changelog += f'      • {issue["title"]}\n'
+        changelog += f'      • {escape_issue_title(issue["title"])}\n'
 
 # find bug issues
 changelog += '\n\n*🐞 Fixes*\n'
 for issue in response.json():
     if 'Bug' in issue['labels']:
-        changelog += f'      • {issue["title"]}\n'
+        changelog += f'      • {escape_issue_title(issue["title"])}\n'
 if DEBUG == True:
     print(changelog)
 
@@ -79,7 +88,10 @@ params = {
     'chat_id': telegram_chat_id,
     'text': changelog
 }
-requests.get(
+response = requests.get(
     f'https://api.telegram.org/bot{telegram_bot_token}/sendMessage',
     params=params
 )
+if DEBUG == True:
+    print(response.status_code)
+    print(response.json())
